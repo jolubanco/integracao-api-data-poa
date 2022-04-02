@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.integracaodatapoa.controllers.dtos.LinhaOnibusDto;
+import br.com.integracaodatapoa.controllers.forms.LinhaOnibusAtualizarForm;
 import br.com.integracaodatapoa.controllers.forms.LinhaOnibusForm;
 import br.com.integracaodatapoa.services.LinhaOnibusService;
 
@@ -29,38 +30,38 @@ public class LinhaOnibusController {
 	
 	@GetMapping
 	public List<LinhaOnibusDto> listaLinhasDeOnibus(){
-		return linhaOnibusService.listaLinhasDeOnibus();
+		return linhaOnibusService.listarLinhasDeOnibus();
 	}
 	
 	@GetMapping("/{idLinha}") //podemos unir os endpoints exibeLinhaDeOnibus e filtraLinhaDeOnibusPorNome
 	public ResponseEntity<LinhaOnibusDto> exibeLinhaDeOnibus(@PathVariable("idLinha") String IdLinha) {
-		return linhaOnibusService.exibeLinhaDeOnibus(IdLinha);
+		return linhaOnibusService.exibirLinhaDeOnibus(IdLinha);
 	}
 	
 	@GetMapping("/filtroNome/{nomeLinha}") //verificar se vamos retornar uma lista
 	public ResponseEntity<LinhaOnibusDto> filtraLinhaDeOnibusPorNome(@PathVariable("nomeLinha") String nomeLinha) {
-		return linhaOnibusService.exibeLinhaDeOnibusFiltradaPeloNome(nomeLinha);
+		return linhaOnibusService.exibirLinhaDeOnibusFiltradaPeloNome(nomeLinha);
 	}
 	
 	@PostMapping //verifica se existe ou não
 	@Transactional //nao estava atualizando
 	public ResponseEntity<LinhaOnibusDto> cadastraLinhaDeOnibus(@RequestBody LinhaOnibusForm form, UriComponentsBuilder uriBuilder) {
-		return linhaOnibusService.cadastraLinhaOnibus(form,uriBuilder);
+		return linhaOnibusService.cadastrarLinhaOnibus(form,uriBuilder);
 	}
 	
 	@PostMapping("/consomeApi")
 	public ResponseEntity<?> consomeApiDataPoa() {
-		return linhaOnibusService.consomeLinhaDeOnibus();	
+		return linhaOnibusService.consumirLinhaDeOnibus();	
 	}
 	
 	@PutMapping
-	public ResponseEntity<LinhaOnibusDto> atualizaLinhaDeOnibus(@RequestBody LinhaOnibusForm form) {
-		return null;
+	public ResponseEntity<LinhaOnibusDto> atualizaLinhaDeOnibus(@RequestBody LinhaOnibusAtualizarForm form) {
+		return linhaOnibusService.atualizarLinhaDeOnibus(form);
 	}
 	
-	@DeleteMapping("/{idLInha}")
+	@DeleteMapping("/{idLinha}")
 	public ResponseEntity<?> deletaLinhaDeOnibus(@PathVariable("idLinha") String idLinha){
-		return null;
+		return linhaOnibusService.deletarLinhaDeOnibus(idLinha);
 	}
 	
 

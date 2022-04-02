@@ -31,4 +31,10 @@ public class LinhaOnibusModel {
 		this.nome = linha.getNome();
 	}
 
+	public LinhaOnibusModel(String id, String codigo, String nome) {
+		this.id = id;
+		this.codigo = codigo;
+		this.nome = nome;
+	}
+
 }
