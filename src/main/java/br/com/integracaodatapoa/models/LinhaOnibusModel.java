@@ -20,8 +20,7 @@ public class LinhaOnibusModel {
 	private String codigo;
 	private String nome;
 	
-	public LinhaOnibusModel(String id, String codigo, String nome) {
-		this.id = id;
+	public LinhaOnibusModel(String codigo, String nome) {
 		this.codigo = codigo;
 		this.nome = nome;
 	}

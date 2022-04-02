@@ -9,4 +9,6 @@ import br.com.integracaodatapoa.models.LinhaOnibusModel;
 public interface LinhaOnibusRepository extends JpaRepository<LinhaOnibusModel, String> {
 
 	Optional<LinhaOnibusModel> findByNomeLike(String nome);
+	
+	Optional<LinhaOnibusModel> findByCodigo(String codigo);
 }

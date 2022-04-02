@@ -2,6 +2,8 @@ package br.com.integracaodatapoa.controllers;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,24 +32,25 @@ public class LinhaOnibusController {
 		return linhaOnibusService.listaLinhasDeOnibus();
 	}
 	
-	@GetMapping("/{idLinha}")
+	@GetMapping("/{idLinha}") //podemos unir os endpoints exibeLinhaDeOnibus e filtraLinhaDeOnibusPorNome
 	public ResponseEntity<LinhaOnibusDto> exibeLinhaDeOnibus(@PathVariable("idLinha") String IdLinha) {
-		return null;
+		return linhaOnibusService.exibeLinhaDeOnibus(IdLinha);
 	}
 	
-	@GetMapping("/filtroNome/{nomeLinha}") //pode ser uma lista
-	public ResponseEntity<List<LinhaOnibusDto>> filtraLinhaDeOnibusPorNome(@PathVariable("nomeLinha") String nomeLinha) {
-		return null;
+	@GetMapping("/filtroNome/{nomeLinha}") //verificar se vamos retornar uma lista
+	public ResponseEntity<LinhaOnibusDto> filtraLinhaDeOnibusPorNome(@PathVariable("nomeLinha") String nomeLinha) {
+		return linhaOnibusService.exibeLinhaDeOnibusFiltradaPeloNome(nomeLinha);
 	}
 	
-	@PostMapping
+	@PostMapping //verifica se existe ou não
+	@Transactional //nao estava atualizando
 	public ResponseEntity<LinhaOnibusDto> cadastraLinhaDeOnibus(@RequestBody LinhaOnibusForm form, UriComponentsBuilder uriBuilder) {
-		return null;
+		return linhaOnibusService.cadastraLinhaOnibus(form,uriBuilder);
 	}
 	
 	@PostMapping("/consomeApi")
 	public ResponseEntity<?> consomeApiDataPoa() {
-		return linhaOnibusService.cadastraLinhaDeOnibus();	
+		return linhaOnibusService.consomeLinhaDeOnibus();	
 	}
 	
 	@PutMapping
