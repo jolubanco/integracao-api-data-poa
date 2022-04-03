@@ -31,13 +31,25 @@ public class LinhaOnibusService {
 		this.restTemplate = restTemplate;
 	}
 
-	public List<LinhaOnibusDto> listarLinhasDeOnibus() {
-		List<LinhaOnibusModel> linhas = linhaOnibusRepository.findAll();
+	public ResponseEntity<List<LinhaOnibusDto>> listarLinhasDeOnibus(String nome) {
+		
 		List<LinhaOnibusDto> linhaDto = new ArrayList<>();
-		linhas.forEach(linha -> {
-			linhaDto.add(new LinhaOnibusDto(linha));
-		});
-		return linhaDto;
+		
+		if(nome == null) {
+			List<LinhaOnibusModel> linhas = linhaOnibusRepository.findAll();
+			linhas.forEach(linha -> {
+				linhaDto.add(new LinhaOnibusDto(linha));
+			});
+			return ResponseEntity.ok(linhaDto);
+		} else {
+			Optional<List<LinhaOnibusModel>> linhaOnibus = linhaOnibusRepository.findByNome(nome);
+			if(linhaOnibus.isPresent()) {
+				linhaOnibus.get().forEach(linha -> {linhaDto.add(new LinhaOnibusDto(linha));});
+				return ResponseEntity.ok(linhaDto);
+			} else {
+				return ResponseEntity.notFound().build();
+			}
+		}
 	}
 
 	public ResponseEntity<?> consumirLinhaDeOnibus() {
@@ -54,15 +66,6 @@ public class LinhaOnibusService {
 
 	public ResponseEntity<LinhaOnibusDto> exibirLinhaDeOnibus(String idLinha) {
 		Optional<LinhaOnibusModel> linhaOnibus = linhaOnibusRepository.findById(idLinha);
-		if(linhaOnibus.isPresent()) {
-			return ResponseEntity.ok(new LinhaOnibusDto(linhaOnibus.get()));
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-	}
-
-	public ResponseEntity<LinhaOnibusDto> exibirLinhaDeOnibusFiltradaPeloNome(String nomeLinha) {
-		Optional<LinhaOnibusModel> linhaOnibus = linhaOnibusRepository.findByNomeLike(nomeLinha);
 		if(linhaOnibus.isPresent()) {
 			return ResponseEntity.ok(new LinhaOnibusDto(linhaOnibus.get()));
 		} else {

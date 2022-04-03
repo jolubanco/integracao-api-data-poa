@@ -28,19 +28,14 @@ public class LinhaOnibusController {
 	@Autowired
 	private LinhaOnibusService linhaOnibusService;
 	
-	@GetMapping
-	public List<LinhaOnibusDto> listaLinhasDeOnibus(){
-		return linhaOnibusService.listarLinhasDeOnibus();
+	@GetMapping//funciona na primeira consulta, na segunda da erro(por causa do like). TIRANDO O LIKE FUNCIONA NORMAL
+	public ResponseEntity<List<LinhaOnibusDto>> listaLinhasDeOnibus(String nome){
+		return linhaOnibusService.listarLinhasDeOnibus(nome);
 	}
 	
-	@GetMapping("/{idLinha}") //podemos unir os endpoints exibeLinhaDeOnibus e filtraLinhaDeOnibusPorNome
+	@GetMapping("/{idLinha}")
 	public ResponseEntity<LinhaOnibusDto> exibeLinhaDeOnibus(@PathVariable("idLinha") String IdLinha) {
 		return linhaOnibusService.exibirLinhaDeOnibus(IdLinha);
-	}
-	
-	@GetMapping("/filtroNome/{nomeLinha}") //verificar se vamos retornar uma lista
-	public ResponseEntity<LinhaOnibusDto> filtraLinhaDeOnibusPorNome(@PathVariable("nomeLinha") String nomeLinha) {
-		return linhaOnibusService.exibirLinhaDeOnibusFiltradaPeloNome(nomeLinha);
 	}
 	
 	@PostMapping //verifica se existe ou não
